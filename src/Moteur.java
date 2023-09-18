@@ -1,0 +1,55 @@
+
+enum symptome {
+    ANXIETE,
+    COMPORTEMENTS_REPETITIFS,
+    COMPULSIONS,
+    CONFUSIONS,
+    CONVULSIONS,
+    CRISE_DE_PANIQUE,
+    DESORIENTATION,
+    FATIGUE_SEVERE,
+    HALLUCINATIONS,
+    HYPERACTIF,
+    IMPULSIF,
+    INQUIETUDE,
+    INSOMNIE,
+    IRRITABLE,
+    ISOLEMENT_SOCIAL,
+    MAL_DE_TETE,
+    NAUSEES,
+    OBSESSIONS,
+    PENSEES_SUICIDAIRES,
+    PERTE_APPETIT,
+    PERTE_CONSCIENCE,
+    PERTE_INTERET,
+    PERTE_MEMOIRE,
+    SENSIBILITE_LUMIERE,
+    SENSIBILITE_SENSORIELLES_ACCRUE,
+    SUEURS,
+    TREMBLEMENTS,
+    TRISTESSE,
+    TROUBLE_ATTENTION,
+    TROUBLE_CARDIAQUE,
+    TROUBLE_COGNITIFS,
+    TROUBLE_COMMUNICATIONS,
+    TROUBLE_EMOTIONS,
+    TROUBLE_INTERACTIONS_SOCIALES,
+    TROUBLE_MOUVEMENTS,
+    TROUBLE_MUSCULAIRES,
+    TROUBLE_PERSONNALITE,
+    TROUBLE_SOMMEIL,
+    TROUBLE_VISION
+}
+
+
+public class Moteur {
+    
+    symptome symptomes[];
+
+    public Moteur(symptome symptomes_donnees[]) {
+        for (int i = 0; i < symptomes_donnees.length; i++) {
+            symptomes[i] = symptomes_donnees[i];
+        }
+    }
+
+}
