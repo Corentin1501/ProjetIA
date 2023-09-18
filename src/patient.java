@@ -11,5 +11,5 @@ public class patient {
         this._age = a;
         this.symptomesDuPatient =sympt;
     }
-
+ 
 }
