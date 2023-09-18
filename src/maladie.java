@@ -1,17 +1,3 @@
-enum maladies {
-    ANXIETE,
-    DEPRESSION,
-    BIPOLAIRE,
-    SCHIZOPHRENIE,
-    TOC,
-    MIGRAINE,
-    PARKINSON,
-    SCLEROSE_EN_PLAQUES,
-    EPILEPSIE,
-    ALZHEIMER,
-    AUTISME,
-    TDAH
-}
 
 public class maladie {
 
@@ -23,6 +9,9 @@ public class maladie {
         _nom = nom;
     }
     
-
+    public String getNomMaladie() {
+        return _nom;
+    }
+    
 
 }
