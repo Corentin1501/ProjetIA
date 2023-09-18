@@ -7,4 +7,6 @@ public class BaseDeFait {
             faits[i] = symptomes[i];
         }
     }
+
+    
 }
