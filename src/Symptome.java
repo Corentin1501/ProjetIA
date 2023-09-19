@@ -1,10 +1,10 @@
 
-public class symptome {
+public class Symptome {
     
     String _nom;
    
 
-    public symptome(String nom) {
+    public Symptome(String nom) {
         _nom = nom;
     }
 

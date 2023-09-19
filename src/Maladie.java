@@ -1,11 +1,10 @@
 
-public class maladie {
+public class Maladie {
 
-       
     String _nom;
    
 
-    public maladie(String nom) {
+    public Maladie(String nom) {
         _nom = nom;
     }
     
