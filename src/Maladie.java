@@ -1,7 +1,7 @@
 
 public class Maladie {
 
-    String _nom;
+    private String _nom;
    
 
     public Maladie(String nom) {

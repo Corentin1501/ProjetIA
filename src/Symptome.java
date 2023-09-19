@@ -1,16 +1,17 @@
 
 public class Symptome {
     
-    String _nom;
+    private String _nom;
    
 
     public Symptome(String nom) {
         _nom = nom;
     }
 
-    public String getNomSymptome() {
+
+    public String get_nom() {
         return _nom;
     }
-    
+
 
 }

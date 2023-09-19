@@ -3,9 +3,9 @@ import java.util.List;
 
 public class Patient {
 
-    String _nom;
-    int _age;
-    List<Symptome> _symptomesDuPatient;
+    private String _nom;
+    private int _age;
+    private List<Symptome> _symptomesDuPatient;
 
     public Patient(String nom, int age, List<Symptome> symptomes){
         this._nom = nom;
@@ -16,5 +16,19 @@ public class Patient {
             this._symptomesDuPatient.add(s);
         }
     }
+
+    public String get_nom() {
+        return _nom;
+    }
+
+    public int get_age() {
+        return _age;
+    }
+
+    public List<Symptome> get_symptomesDuPatient() {
+        return _symptomesDuPatient;
+    }
+
+    
  
 }

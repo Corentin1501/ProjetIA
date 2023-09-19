@@ -3,8 +3,8 @@ import java.util.ArrayList;
 
 public class Rules {
 
-    List<Symptome> _symptomesRequis;
-    Maladie _maladieDiagnostique;
+    private List<Symptome> _symptomesRequis;
+    private Maladie _maladieDiagnostique;
     
     public Rules(List<Symptome> symptomeRequis, Maladie maladie) {
         this._symptomesRequis = new ArrayList<Symptome>();
@@ -15,39 +15,35 @@ public class Rules {
     }
 
     public boolean evaluer(List<Symptome> symptomesPresent) {
-        return symptomesPresent.containsAll(_symptomesRequis);
+        int nombreSymptomesRequis = this._symptomesRequis.size();
+        int nombreSymptomesPresent = 0;
+
+        // System.out.println("\nEvaluation de la regle pour " + this._maladieDiagnostique.getNomMaladie());
+        // System.out.println("Symptomes requis :");
+        // for(Symptome s : _symptomesRequis){
+        //     System.out.println("\t- " + s.get_nom());
+        // }
+
+
+        for(Symptome symptRequis : this._symptomesRequis){
+            for(Symptome symptPatient : symptomesPresent){
+                if (symptPatient.get_nom() == symptRequis.get_nom()){
+                    nombreSymptomesPresent++;
+                }
+            }
+        }
+        // System.out.println("\nNombre de symptome requis : " + nombreSymptomesRequis + "\nNombre de symptome présent : " + nombreSymptomesPresent);
+        return (nombreSymptomesRequis == nombreSymptomesPresent);
     }
 
-    // public boolean isAnxiete(List<Symptome> s){
+    public List<Symptome> get_symptomesRequis() {
+        return _symptomesRequis;
+    }
 
-    //     for(int i=0; i < s.size(); i++) {
+    public Maladie get_maladieDiagnostique() {
+        return _maladieDiagnostique;
+    }
 
-    //         if(s.get(i).getNomSymptome() == "INQUIETUDE" && s.get(i).getNomSymptome() == "TROUBLE_MUSCULAIRES" &&
-    //            s.get(i).getNomSymptome() == "TROUBLE_SOMMEIL" && s.get(i).getNomSymptome() == "TROUBLE_CARDIAQUE" &&
-    //            s.get(i).getNomSymptome() == "SUEURS" &&  s.get(i).getNomSymptome() == "CRISE_DE_PANIQUE" )
-
-    //                   return true;
-            
-    //     }
-    //     return false;
-
-        
-    // }
     
-    // public boolean isDepressif(List<Symptome> s){
-
-    //     for(int i=0; i < s.size(); i++) {
-            
-    //         if(s.get(i).getNomSymptome() == "TRISTESSE" && s.get(i).getNomSymptome() == "PERTE_INTERET" &&
-    //            s.get(i).getNomSymptome() == "FATIGUE_SEVERE" && s.get(i).getNomSymptome() == "PERTE_APPETIT" &&
-    //            s.get(i).getNomSymptome() == "TROUBLE_SOMMEIL" &&  s.get(i).getNomSymptome() == "PENSEES_SUICIDAIRES" )
-
-    //                   return true;
-            
-    //     }
-    //     return false;
-
-        
-    // }
 
 }
