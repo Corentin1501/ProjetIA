@@ -16,5 +16,19 @@ public class Patient {
             this._symptomesDuPatient.add(s);
         }
     }
+
+    public String get_nom() {
+        return _nom;
+    }
+
+    public int get_age() {
+        return _age;
+    }
+
+    public List<Symptome> get_symptomesDuPatient() {
+        return _symptomesDuPatient;
+    }
+    
+  
  
 }
