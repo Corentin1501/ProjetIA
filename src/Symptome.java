@@ -1,16 +1,15 @@
 
 public class Symptome {
     
-    private String _nom;
+    private String nom;
    
 
     public Symptome(String nom) {
-        _nom = nom;
+        this.nom = nom;
     }
 
-
     public String get_nom() {
-        return _nom;
+        return nom;
     }
 
 

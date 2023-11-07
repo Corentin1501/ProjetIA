@@ -3,47 +3,33 @@ import java.util.ArrayList;
 
 public class Rules {
 
-    private List<Symptome> _symptomesRequis;
-    private Maladie _maladieDiagnostique;
+    private List<Symptome> symptomesRequis;
+    private Symptome consequence;
     
-    public Rules(List<Symptome> symptomeRequis, Maladie maladie) {
-        this._symptomesRequis = new ArrayList<Symptome>();
-        for (Symptome s : symptomeRequis) {
-            this._symptomesRequis.add(s);
+    public Rules(List<Symptome> symptomeRequis, Symptome consequence) {
+        this.symptomesRequis = new ArrayList<Symptome>();
+
+        for (Symptome s : symptomesRequis) {
+            this.symptomesRequis.add(s);
         }
-        this._maladieDiagnostique = maladie;
+        this.consequence = consequence;
     }
 
     public boolean evaluer(List<Symptome> symptomesPresent) {
-        int nombreSymptomesRequis = this._symptomesRequis.size();
-        int nombreSymptomesPresent = 0;
+        int nombreSymptomesRequis = this.symptomesRequis.size();
+        int symptomesPresents = 0;
 
-        // System.out.println("\nEvaluation de la regle pour " + this._maladieDiagnostique.getNomMaladie());
-        // System.out.println("Symptomes requis :");
-        // for(Symptome s : _symptomesRequis){
-        //     System.out.println("\t- " + s.get_nom());
-        // }
-
-
-        for(Symptome symptRequis : this._symptomesRequis){
-            for(Symptome symptPatient : symptomesPresent){
-                if (symptPatient.get_nom() == symptRequis.get_nom()){
-                    nombreSymptomesPresent++;
+        for(Symptome symptomeRequis : this.symptomesRequis){
+            for(Symptome symptPersonne : symptomesPresent){
+                if (symptPersonne.get_nom() == symptomeRequis.get_nom()){
+                    symptomesPresents++;
                 }
             }
         }
-        // System.out.println("\nNombre de symptome requis : " + nombreSymptomesRequis + "\nNombre de symptome présent : " + nombreSymptomesPresent);
-        return (nombreSymptomesRequis == nombreSymptomesPresent);
+        return (nombreSymptomesRequis == symptomesPresents);
     }
 
-    public List<Symptome> get_symptomesRequis() {
-        return _symptomesRequis;
-    }
-
-    public Maladie get_maladieDiagnostique() {
-        return _maladieDiagnostique;
-    }
-
+    public List<Symptome> getSymptomesRequis(){ return symptomesRequis; }
+    public Symptome getConsequence(){ return consequence; }
     
-
 }
