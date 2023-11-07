@@ -5,14 +5,12 @@ public class Rules {
 
     private List<Symptome> symptomesRequis;
     private Symptome consequence;
+    private int niveau;
     
-    public Rules(List<Symptome> symptomeRequis, Symptome consequence) {
-        this.symptomesRequis = new ArrayList<Symptome>();
-
-        for (Symptome s : symptomesRequis) {
-            this.symptomesRequis.add(s);
-        }
+    public Rules(List<Symptome> symptomeRequis, Symptome consequence, int niveau) {
+        this.symptomesRequis = new ArrayList<Symptome>(symptomeRequis);
         this.consequence = consequence;
+        this.niveau = niveau;
     }
 
     public boolean evaluer(List<Symptome> symptomesPresent) {
@@ -21,7 +19,7 @@ public class Rules {
 
         for(Symptome symptomeRequis : this.symptomesRequis){
             for(Symptome symptPersonne : symptomesPresent){
-                if (symptPersonne.get_nom() == symptomeRequis.get_nom()){
+                if (symptPersonne.getNom() == symptomeRequis.getNom()){
                     symptomesPresents++;
                 }
             }
@@ -31,5 +29,7 @@ public class Rules {
 
     public List<Symptome> getSymptomesRequis(){ return symptomesRequis; }
     public Symptome getConsequence(){ return consequence; }
+    public int getNiveau() { return niveau; }
     
+
 }
