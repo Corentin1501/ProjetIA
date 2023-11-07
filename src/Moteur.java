@@ -5,6 +5,7 @@ public class Moteur {
 
     private List<Rules> _rules;
     private List<Symptome> _baseDeFait;
+    
 
     public Moteur(List<Rules> r, List<Symptome> b){
         _rules = new ArrayList<Rules>();
@@ -26,7 +27,18 @@ public class Moteur {
         return this._rules;
     }
 
-    public String afficherSymptomesRequis(){
+    public boolean diagnosticMaladie(List<Symptome> s1, List<Symptome> s2 ) {
+        for(Symptome symptRequis : s1){
+            for(Symptome symptPatient : s2){
+                if (symptPatient.getNomSymptome() == symptRequis.getNomSymptome()){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }    
+
+    public String afficherRegles(){
      
         List<Symptome> res = new ArrayList<Symptome>();
 
@@ -41,15 +53,16 @@ public class Moteur {
 
             resString += s.getNomSymptome() +" ∧ ";
         }
+
+
+        
+        
         return resString;
     }
 
+   
     
-    public String afficherMaladiesDiagnostiquees(){
-        String res = "";
-        for(Rules r : this._rules){
-            res += r.get_maladieDiagnostique() + "\n";
-        }
-        return res;
-    }
+
+    
+
 }

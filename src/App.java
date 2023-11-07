@@ -204,14 +204,14 @@ public class App {
 
         Moteur m1 = new Moteur(reglesMoteur, baseDeFait);
 
-        System.out.println("BASE DE FAIT : ");
+       /* System.out.println("BASE DE FAIT : ");
         for(Symptome s : baseDeFait)
-            System.out.println(s.getNomSymptome()+"\n");
+            System.out.println(s.getNomSymptome()+"\n");*/
 
-        System.out.println(m1.afficherSymptomesRequis());
+        System.out.println(m1.afficherRegles());
 
 
-
+        
 
     }
 
