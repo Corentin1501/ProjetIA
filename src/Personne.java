@@ -25,8 +25,4 @@ public class Personne {
     public int getAge(){    return age; }
     public List<Symptome> getSymptomesDeLaPersonne(){   return symptomesDeLaPersonne;   }
     public List<Personne> getPersonnesEnContact() {     return personnesEnContact;      }
-    
-
-    
- 
 }

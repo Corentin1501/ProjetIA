@@ -38,7 +38,7 @@ public class App {
                 symptomesCovid1.add(GRIPPE);
                 symptomesCovid1.add(TOUX);
             List<Symptome> symptomesCovid2 = new ArrayList<Symptome>();
-                symptomesCovid1.add(CONTACT_COVID);
+                symptomesCovid2.add(CONTACT_COVID);
             List<Symptome> symptomesMalaise = new ArrayList<Symptome>();
                 symptomesMalaise.add(FATIGUE);
                 symptomesMalaise.add(SUEURS_FROIDES);
@@ -63,17 +63,19 @@ public class App {
 
         // Création des différentes règles pour chaque maladies 
 
-            Rules rule_grippe_1 = new Rules(symptomesGrippe1, GRIPPE, 1);
-            Rules rule_grippe_2 = new Rules(symptomesGrippe2, GRIPPE, 1);
-            Rules rule_covid_1 = new Rules(symptomesCovid1, COVID, 2);
-            Rules rule_covid_2 = new Rules(symptomesCovid2, COVID, 2);
-            Rules rule_malaise = new Rules(symptomesMalaise, MALAISE, 1);
-            Rules rule_fragile = new Rules(symptomesFragile, FRAGILE, 1);
-            Rules rule_complications_1 = new Rules(symptomesComplicationCovid, COMPLICATIONS, 2);
-            Rules rule_complications_2 = new Rules(symptomesComplicationGrippe, COMPLICATIONS, 2);
-            Rules rule_mort_1 = new Rules(symptomesMort1, MORT, 2);
-            Rules rule_mort_2 = new Rules(symptomesMort2, MORT, 2);
-            Rules rule_mort_3 = new Rules(symptomesMort3, MORT, 3);
+            int numero = 1;
+
+            Rules rule_grippe_1 = new Rules(symptomesGrippe1, GRIPPE, 1, numero++);
+            Rules rule_grippe_2 = new Rules(symptomesGrippe2, GRIPPE, 1, numero++);
+            Rules rule_covid_1 = new Rules(symptomesCovid1, COVID, 2, numero++);
+            Rules rule_covid_2 = new Rules(symptomesCovid2, COVID, 2, numero++);
+            Rules rule_malaise = new Rules(symptomesMalaise, MALAISE, 1, numero++);
+            Rules rule_fragile = new Rules(symptomesFragile, FRAGILE, 1, numero++);
+            Rules rule_complications_1 = new Rules(symptomesComplicationCovid, COMPLICATIONS, 2, numero++);
+            Rules rule_complications_2 = new Rules(symptomesComplicationGrippe, COMPLICATIONS, 2, numero++);
+            Rules rule_mort_1 = new Rules(symptomesMort1, MORT, 2, numero++);
+            Rules rule_mort_2 = new Rules(symptomesMort2, MORT, 2, numero++);
+            Rules rule_mort_3 = new Rules(symptomesMort3, MORT, 3, numero++);
             
 
             reglesMaladies.add(rule_grippe_1);
@@ -93,20 +95,41 @@ public class App {
     public static void main(String[] args) throws Exception {
 
         List<Rules> regles = creerReglesMaladies();
+
+        // for (Rules rule : regles) {
+        //     System.out.println("regle n°" + rule.getNumero() + " - " + rule.getConsequence().getNom());
+        //     for (Symptome symptome : rule.getSymptomesRequis()) {
+        //         System.out.println(symptome.getNom());
+
+        //     }        
+        // }
         
         List<Symptome> symptomesPatient = new ArrayList<>();
             // symptomesPatient.add(new Symptome("COURBATURE", 1));
             symptomesPatient.add(new Symptome("FATIGUE", 1));
-            symptomesPatient.add(new Symptome("FIEVRE", 1));
+            // symptomesPatient.add(new Symptome("FIEVRE", 1));
             symptomesPatient.add(new Symptome("SUEURS_FROIDES", 1));
             symptomesPatient.add(new Symptome("VIEUX", 1));
             // symptomesPatient.add(new Symptome("TOUX", 1));
 
+
         Personne patient = new Personne("Billy", 85, symptomesPatient, null);
+
+        for (Symptome symptome : symptomesPatient) {
+            System.out.println(symptome.getNom());
+        }
 
         Chainage_avant ch = new Chainage_avant(patient, regles);
 
         ch.evaluer();
+
+        Chainage_arriere chA = new Chainage_arriere(patient, regles);
+
+        List<Symptome> obj = new ArrayList<>();
+        obj.add(new Symptome("MORT", 4));
+
+        System.out.println("patient mort : " + chA.chainageArriere(patient, new Symptome("MORT", 4)));
+        
     }
 
     

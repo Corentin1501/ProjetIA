@@ -27,9 +27,9 @@ public class Chainage_avant {
             }
         //-------------------------------------------
 
-            for (Symptome symptome : patient.getSymptomesDeLaPersonne()) {
-                System.out.println(symptome.getNom());
-            }
+            // for (Symptome symptome : patient.getSymptomesDeLaPersonne()) {
+            //     System.out.println(symptome.getNom());
+            // }
 
         // évaluation de toutes les regles dans l'ordre de niveau
         
@@ -39,16 +39,17 @@ public class Chainage_avant {
                     && !patient.getSymptomesDeLaPersonne().contains(rule.getConsequence()))
                 {
                     patient.ajouterSymptome(rule.getConsequence());
+                    System.out.println("nouveau symptome : " + rule.getConsequence().getNom());
                 }
             }
         }
 
         // toutes les regles et faits ont été évalués, on regarde ensuite quel symptome trouvé est le plus grave (on cherche la mort)
 
-        System.out.println("-----------");
-        for (Symptome symptome : patient.getSymptomesDeLaPersonne()) {
-            System.out.println(symptome.getNom());
-        }
+        // System.out.println("-----------");
+        // for (Symptome symptome : patient.getSymptomesDeLaPersonne()) {
+        //     System.out.println(symptome.getNom());
+        // }
 
         Symptome pireSymptome = patient.getSymptomesDeLaPersonne().get(0); // on prend par défaut le premier 
 

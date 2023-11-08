@@ -14,5 +14,8 @@ public class Symptome {
     public String getNom() { return nom;    }
     public int getNiveau() { return niveau; }
 
-
+    public boolean equals(Symptome s){
+        return nom == s.getNom();
+    
+    }
 }
