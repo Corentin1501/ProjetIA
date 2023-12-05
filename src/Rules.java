@@ -3,46 +3,36 @@ import java.util.ArrayList;
 
 public class Rules {
 
-    private List<Symptome> _symptomesRequis;
-    private Maladie _maladieDiagnostique;
+    private List<Symptome> symptomesRequis;
+    private Symptome consequence;
+    private int niveau;
+    private int numero;
     
-    public Rules(List<Symptome> symptomeRequis, Maladie maladie) {
-        this._symptomesRequis = new ArrayList<Symptome>();
-        for (Symptome s : symptomeRequis) {
-            this._symptomesRequis.add(s);
-        }
-        this._maladieDiagnostique = maladie;
+    public Rules(List<Symptome> symptomeRequis, Symptome consequence, int niveau, int numero) {
+        this.symptomesRequis = new ArrayList<Symptome>(symptomeRequis);
+        this.consequence = consequence;
+        this.niveau = niveau;
+        this.numero = numero;
     }
 
     public boolean evaluer(List<Symptome> symptomesPresent) {
-        int nombreSymptomesRequis = this._symptomesRequis.size();
-        int nombreSymptomesPresent = 0;
+        int nombreSymptomesRequis = this.symptomesRequis.size();
+        int symptomesPresents = 0;
 
-        // System.out.println("\nEvaluation de la regle pour " + this._maladieDiagnostique.getNomMaladie());
-        // System.out.println("Symptomes requis :");
-        // for(Symptome s : _symptomesRequis){
-        //     System.out.println("\t- " + s.get_nom());
-        // }
-
-
-        for(Symptome symptRequis : this._symptomesRequis){
-            for(Symptome symptPatient : symptomesPresent){
-                if (symptPatient.getNomSymptome() == symptRequis.getNomSymptome()){
-                    nombreSymptomesPresent++;
+        for(Symptome symptomeRequis : this.symptomesRequis){
+            for(Symptome symptPersonne : symptomesPresent){
+                if (symptPersonne.getNom() == symptomeRequis.getNom()){
+                    symptomesPresents++;
                 }
             }
         }
-        // System.out.println("\nNombre de symptome requis : " + nombreSymptomesRequis + "\nNombre de symptome présent : " + nombreSymptomesPresent);
-        return (nombreSymptomesRequis == nombreSymptomesPresent);
+        return (nombreSymptomesRequis == symptomesPresents);
     }
 
-    public List<Symptome> get_symptomesRequis() {
-        return _symptomesRequis;
-    }
-
-    public Maladie get_maladieDiagnostique() {
-        return _maladieDiagnostique;
-    }
+    public List<Symptome> getSymptomesRequis(){ return symptomesRequis; }
+    public Symptome getConsequence(){ return consequence; }
+    public int getNiveau() { return niveau; }
+    public int getNumero() { return numero; }
 
     
 

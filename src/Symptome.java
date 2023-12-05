@@ -1,16 +1,21 @@
 
 public class Symptome {
     
-    String _nom;
+    private String nom;
+    private int niveau;
    
 
-    public Symptome(String nom) {
-        _nom = nom;
+    public Symptome(String nom, int niveau) {
+        this.nom = nom;
+        this.niveau = niveau;
     }
 
-    public String getNomSymptome() {
-        return _nom;
-    }
+
+    public String getNom() { return nom;    }
+    public int getNiveau() { return niveau; }
+
+    public boolean equals(Symptome s){
+        return nom == s.getNom();
     
-
+    }
 }
