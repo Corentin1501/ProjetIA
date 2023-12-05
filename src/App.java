@@ -17,6 +17,7 @@ public class App {
         // base de regles
         Br baseDeRegles = new Br();
         
+
         
         
         
@@ -34,7 +35,11 @@ public class App {
         // Print base de regles;
         // System.out.println(baseDeRegles.toString());
 
-
+          System.out.println("*******************COHERENCE****************************");
+        System.out.println("\nVérification de la cohérence de la base de faits avant le chaînage :");
+        boolean coherenceAvant = Utilitaires.estBaseFaitsCoherente(baseFaitAvant, baseDeRegles);
+        System.out.println("La base de faits avant le chaînage est cohérente : " + coherenceAvant);
+      
         
         
         //################################################
@@ -66,6 +71,7 @@ public class App {
         
     }
 
+    
     public static void readFromFile(ArrayList<String> faits, ArrayList<String> baseFaitAvant, Br baseDeRegles){
         BufferedReader reader;
         
@@ -98,7 +104,13 @@ public class App {
             
             e.printStackTrace();
         }
+
+
     }
+
+   
+
+
 
 
 }
