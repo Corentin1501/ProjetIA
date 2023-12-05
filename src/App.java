@@ -13,15 +13,15 @@ public class App {
             Symptome FIEVRE = new Symptome("FIEVRE",1);
             Symptome TOUX = new Symptome("TOUX",1);
             Symptome SUEURS_FROIDES = new Symptome("SUEURS_FROIDES",1);
-            Symptome MALAISE = new Symptome("MALAISE",2);
-            Symptome FRAGILE = new Symptome("FRAGILE",2);
             Symptome VIEUX = new Symptome("VIEUX",1);
             Symptome MAUX_DE_TETE = new Symptome("MAUX_DE_TETE",1);
             Symptome PRESSION_ELEVEE = new Symptome("PRESSION_ELEVEE",1);
             Symptome PAS_BON_MEDECIN = new Symptome("PAS_BON_MEDECIN",1);
+            Symptome CONTACT_COVID = new Symptome("CONTACT_COVID",1);
             Symptome GRIPPE = new Symptome("GRIPPE",2);
             Symptome COVID = new Symptome("COVID",2);
-            Symptome CONTACT_COVID = new Symptome("CONTACT_COVID",1);
+            Symptome MALAISE = new Symptome("MALAISE",2);
+            Symptome FRAGILE = new Symptome("FRAGILE",2);
             Symptome COMPLICATIONS = new Symptome("COMPLICATIONS",3);
             Symptome MORT = new Symptome("MORT",4);
 
@@ -129,6 +129,8 @@ public class App {
         obj.add(new Symptome("MORT", 4));
 
         System.out.println("patient mort : " + chA.chainageArriere(patient, new Symptome("MORT", 4)));
+
+        View view = new View();
         
     }
 
