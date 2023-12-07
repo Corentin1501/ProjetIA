@@ -149,15 +149,20 @@ public class View {
 
 
                 //------- Boutons -------
+                    
                     JButton boutonCoherence = new JButton("Test de Cohérence");
                     JButton boutonEvaluate = new JButton("Évaluer");
                     JButton boutonQuit = new JButton("Quitter");
 
-                    boutonCoherence.setFont(font);
+                 
+                    boutonCoherence.setFont(font);  
                     boutonEvaluate.setFont(font);
                     boutonQuit.setFont(font);
 
                     //-------- Actions des boutons --------
+
+                      
+
 
                      boutonCoherence.addActionListener( new ActionListener() {
                             public void actionPerformed(ActionEvent evenement) {
@@ -203,13 +208,7 @@ public class View {
 
                                     ViewCoherence v  = new ViewCoherence(message);
                                     
-                                  
-                                    // but recherché
-                                    /*String but = inputBut.getText();
-
-                                    resultats = new ViewResults((String) methode.getSelectedItem(), baseFait, baseDeRegles, but);
-                                    
-                                    resultats.show();*/
+                       
 
                             }
                         });
@@ -260,6 +259,7 @@ public class View {
                     panelBoutons.setLayout(new BoxLayout(panelBoutons, BoxLayout.X_AXIS));
 
                     panelBoutons.add(Box.createHorizontalGlue());
+                    panelBoutons.add(Box.createHorizontalStrut(10));
                     panelBoutons.add(boutonCoherence);
                     panelBoutons.add(Box.createHorizontalStrut(10));
                     panelBoutons.add(boutonEvaluate);
