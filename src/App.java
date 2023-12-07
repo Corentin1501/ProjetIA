@@ -16,13 +16,13 @@ public class App {
 
             //--------- BUTS ---------
             
-                String but = new String();
-                ArrayList<String> ensembleDeButs = new ArrayList<String>();
+                // String but = new String();
+                // ArrayList<String> ensembleDeButs = new ArrayList<String>();
             
             //--------- BASE DE RÈGLES ---------
         
                 // base de regles
-                Br baseDeRegles = new Br();
+                // Br baseDeRegles = new Br();
 
             //-----------------------------------
 
@@ -61,6 +61,7 @@ public class App {
         //################################################
 
         View menu = new View();
+        menu.show();
         
     }
 

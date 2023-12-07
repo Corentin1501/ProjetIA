@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import javax.swing.*;
 
@@ -12,6 +11,8 @@ public class View {
     public JFrame jFrame;
 
     private JCheckBox courbature, fatigue, fievre, toux, sueurs, mauxDeTete, pression, bonMedecin;
+
+    private ViewResults resultats;
 
     public View(){
         this.jFrame = new JFrame("Menu des symptômes");
@@ -171,7 +172,7 @@ public class View {
                                         if (mauxDeTete.isSelected()) baseFait.add("MAUX_DE_TETE");
                                         if (pression.isSelected()) baseFait.add("PRESSION");
                                         if (bonMedecin.isSelected()) baseFait.add("PAS_BON_MEDECIN");
-                                        if (Integer.parseInt(inputAge.getText()) > 80) baseFait.add("VIEUX");
+                                        if (!inputAge.getText().isEmpty() && Integer.parseInt(inputAge.getText()) > 80) baseFait.add("VIEUX");
 
                                     // base de regles
 
@@ -183,9 +184,12 @@ public class View {
                                     }
                                     System.out.println(baseDeRegles.toString());
 
-                                    ViewResults resultats = new ViewResults((String) methode.getSelectedItem(), baseFait, baseDeRegles);
-                                    
+                                    // but recherché
+                                    String but = inputBut.getText();
 
+                                    resultats = new ViewResults((String) methode.getSelectedItem(), baseFait, baseDeRegles, but);
+                                    
+                                    resultats.show();
 
                             }
                         });
@@ -216,7 +220,6 @@ public class View {
             // panel.setBackground(Color.DARK_GRAY);
 
             jFrame.setContentPane(panel);
-            jFrame.setVisible(true);
     }
 
     public static void readRulesFromFile(Br baseDeRegles){
@@ -244,4 +247,5 @@ public class View {
         }
     }
 
+    public void show(){ jFrame.setVisible(true); }
 }
