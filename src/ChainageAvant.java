@@ -3,41 +3,70 @@
 import java.util.ArrayList;
 
 public class ChainageAvant{
-    public static void solve(ArrayList<String> bf,Br bRegle,String f){
-        ArrayList<Regle> treeRegle = new ArrayList<Regle>();
+    private String explicationsFinales, explicationsCompletes, but;
+    private ArrayList<String> baseDeFaits;
+    private Br baseDeRegles;
+
+    
+
+    public ChainageAvant(ArrayList<String> baseDeFaits, Br baseDeRegles, String but) {
+        this.baseDeFaits = baseDeFaits;
+        this.baseDeRegles = baseDeRegles;
+        this.but = but;
+        this.explicationsFinales = "";
+        this.explicationsCompletes = "";
+
+    }
+
+    public void solve() 
+    {
+        ArrayList<Regle> cheminementRegle = new ArrayList<Regle>();
+
         try {
-            while (!bf.contains(f) && bRegle.countRegleApplicable(bf)>0) {
-                // get applicable rule 
-                Regle regAppl =  bRegle.getRegleApplicable(bf);
-                // desactivate the rule
-                regAppl.desactivate();
-                System.out.println("la regle applicable est : \n"+regAppl.toString()+"\n");
-                // add regApp to a stack
-                treeRegle.add(regAppl);
-                // add the actions to BF
-                bf.addAll(regAppl.action);
-                System.out.println("BF pour cet iteration:  "+ bf.toString() + "\n");
+            while (!baseDeFaits.contains(but) && baseDeRegles.countRegleApplicable(baseDeFaits)>0) 
+            {
+                // recupérer la regle applicable
+                Regle regleAppl =  baseDeRegles.getRegleApplicable(baseDeFaits);
+                regleAppl.desactivate();
+
+                explicationsCompletes += "la regle applicable est : \n" + regleAppl.toString() + "\n";
+                
+                // System.out.println("la regle applicable est : \n" + regleAppl.toString() + "\n");
+                
+                // ajouter la regle au cheminement
+                cheminementRegle.add(regleAppl);
+                
+                // ajouter l'action à la BF
+                baseDeFaits.addAll(regleAppl.action);
+                
+                explicationsCompletes += "BF pour cet iteration:  " + baseDeFaits.toString() + "\n";
+                
+                // System.out.println("BF pour cet iteration:  " + baseDeFaits.toString() + "\n");
 
             }
-            if(bf.contains(f)){
-                System.out.println( "La regle: " + f + "  est etabli");
-                System.out.println("Les regles utilisees pour demontrer {" + f +"} :");
-                for (Regle r : treeRegle) {
-                    System.out.println(r);
+            if(baseDeFaits.contains(but)){
+                // System.out.println( "La regle: " + but + "  est etabli");
+                // System.out.println("Les regles utilisees pour demontrer {" + but +"} :");
+
+                explicationsCompletes += "Les regles utilisees pour demontrer {" + but + "} :\n";
+                explicationsFinales += "Les regles utilisees pour demontrer {" + but + "} :\n";
+
+                for (Regle r : cheminementRegle) {
+                    // System.out.println(r);
+                    explicationsCompletes += r.toString() + "\n";
+                    explicationsFinales += r.toString() + "\n";
                 }
 
                 
-            }else{
-                System.out.println( "La regle: " + f + "  n'est pas etabli");
+            } else {
+                System.out.println( "La regle: " + but + "  n'est pas etabli");
 
             }
         } catch (Exception e) {
                 System.out.println(e);
         }
-        
-
-       
     }
+
+    public String getExplicationsCompletes(){ return explicationsCompletes; }
+    public String getExplicationsFinales(){ return explicationsFinales; }
 }
-
-
