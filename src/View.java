@@ -149,14 +149,70 @@ public class View {
 
 
                 //------- Boutons -------
-                    
+                    JButton boutonCoherence = new JButton("Test de Cohérence");
                     JButton boutonEvaluate = new JButton("Évaluer");
                     JButton boutonQuit = new JButton("Quitter");
 
+                    boutonCoherence.setFont(font);
                     boutonEvaluate.setFont(font);
                     boutonQuit.setFont(font);
 
                     //-------- Actions des boutons --------
+
+                     boutonCoherence.addActionListener( new ActionListener() {
+                            public void actionPerformed(ActionEvent evenement) {
+                                // Récupération de toutes les données 
+
+                                    // base de faits
+                                        ArrayList<String> baseFait = new ArrayList<String>();
+                                        if (courbature.isSelected()) baseFait.add("COURBATURE");
+                                        if (fatigue.isSelected()) baseFait.add("FATIGUE");
+                                        if (fievre.isSelected()) baseFait.add("FIEVRE");
+                                        if (toux.isSelected()) baseFait.add("TOUX");
+                                        if (sueurs.isSelected()) baseFait.add("SUEURS_FROIDES");
+                                        if (mauxDeTete.isSelected()) baseFait.add("MAUX_DE_TETE");
+                                        if (pression.isSelected()) baseFait.add("PRESSION");
+                                        if (bonMedecin.isSelected()) baseFait.add("PAS_BON_MEDECIN");
+                                        if (!inputAge.getText().isEmpty() && Integer.parseInt(inputAge.getText()) > 80) baseFait.add("VIEUX");
+
+                                    // base de regles
+
+                                        Br baseDeRegles = new Br();
+                                        readRulesFromFile(baseDeRegles);
+
+                                    for (String fait : baseFait) {
+                                        System.out.println(fait + ", ");
+                                    }
+                                    System.out.println(baseDeRegles.toString());
+
+                                    //Test coherence:
+
+
+                                    String message = "";
+                                    message += "*******************COHERENCE****************************";
+                                    message +="\nVérification de la cohérence de la base de faits avant le chaînage :";
+                                    boolean coherenceAvant=false;
+                                    if(baseFait.isEmpty()){
+                            
+                                        message +="Aucune cohérence à tester";    
+                                    }else{
+                                        coherenceAvant = Utilitaires.estBaseFaitsCoherente(baseFait, baseDeRegles);
+                                        message +="La base de faits avant le chaînage est cohérente : " + coherenceAvant; 
+                                    }
+
+
+                                    ViewCoherence v  = new ViewCoherence(message);
+                                    
+                                  
+                                    // but recherché
+                                    /*String but = inputBut.getText();
+
+                                    resultats = new ViewResults((String) methode.getSelectedItem(), baseFait, baseDeRegles, but);
+                                    
+                                    resultats.show();*/
+
+                            }
+                        });
 
                         boutonEvaluate.addActionListener( new ActionListener() {
                             public void actionPerformed(ActionEvent evenement) {
@@ -204,6 +260,8 @@ public class View {
                     panelBoutons.setLayout(new BoxLayout(panelBoutons, BoxLayout.X_AXIS));
 
                     panelBoutons.add(Box.createHorizontalGlue());
+                    panelBoutons.add(boutonCoherence);
+                    panelBoutons.add(Box.createHorizontalStrut(10));
                     panelBoutons.add(boutonEvaluate);
                     panelBoutons.add(Box.createHorizontalStrut(10)); // Ajout d'un espace horizontal entre les boutons
                     panelBoutons.add(boutonQuit);

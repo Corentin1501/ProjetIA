@@ -1,4 +1,3 @@
-
 import java.io.*;
 import java.util.*;
 
@@ -9,46 +8,37 @@ public class App {
     public static ArrayList<String> baseFaitArriere = new ArrayList<String>();
 
     public static void main(String[] args) throws Exception {
-        // fait
-        String faits = new String();
-        ArrayList<String> fVal = new ArrayList<String>();
-       
-       
-        // base de regles
-        Br baseDeRegles = new Br();
-        
 
-        
-        
-        
-        
-        // read date from file
-        readFromFile( fVal,  baseFaitAvant,  baseDeRegles );
-        // workaround for global string variable problem
-        faits+=fVal.get(0);
-        
-        System.out.println("Règles par ordre croissant de prémisses: " +"\n");
-        baseDeRegles.afficherReglesParOrdreCroissantDePremisses();
-        // print base de faits
-        // System.out.println(baseFaitAvant.toString());
+        //################################################
+        //                    DONNÉES                    #
+        //################################################
 
-        // Print base de regles;
-        // System.out.println(baseDeRegles.toString());
+            //--------- BUTS ---------
+            
+                // String but = new String();
+                // ArrayList<String> ensembleDeButs = new ArrayList<String>();
+            
+            //--------- BASE DE RÈGLES ---------
+        
+                // base de regles
+                // Br baseDeRegles = new Br();
 
-          System.out.println("*******************COHERENCE****************************");
-        System.out.println("\nVérification de la cohérence de la base de faits avant le chaînage :");
-        boolean coherenceAvant = Utilitaires.estBaseFaitsCoherente(baseFaitAvant, baseDeRegles);
-        System.out.println("La base de faits avant le chaînage est cohérente : " + coherenceAvant);
-      
-        
-        
+            //-----------------------------------
+
+            // readFromFile( ensembleDeButs,  baseFaitAvant,  baseDeRegles );
+
+            // but += ensembleDeButs.get(0);
+
+            // System.out.println(baseFaitAvant.toString());
+            // System.out.println(baseDeRegles.toString());
+
         //################################################
         //                CHAINAGE AVANT                 #
         //################################################
         
             System.out.println("------------------- Chainage Avant: -------------------\n");
             
-            // ChainageAvant.solve(baseFaitAvant,baseDeRegles,faits);
+            // ChainageAvant.solve(baseFaitAvant,baseDeRegles,but);
             
             System.out.println("\n-------------------------------------------------------");
             
@@ -59,27 +49,29 @@ public class App {
             System.out.println("------------------- Chainage Arrière: -------------------\n");
 
             // reactivater toutes les règles si utilisés après le chainage avant  
-            baseDeRegles.init();
+            // baseDeRegles.init();
 
-            // System.out.println( ChainageArriere.solve(baseFaitArriere, baseDeRegles, fVal)? "La regle " + faits + " est etabli\n": "La regle " + faits + " n'est pas etabli\n" );
+            // System.out.println( ChainageArriere.solve(baseFaitArriere, baseDeRegles, ensembleDeButs)? "La regle " + but + " est etabli\n": "La regle " + but + " n'est pas etabli\n" );
 
             System.out.println("Base des faits apres l'application du chainage arriere: \n" + baseFaitArriere.toString() +"\n");
             
             System.out.println("\n-------------------------------------------------------");
             
         //################################################
+
+        View menu = new View();
+        menu.show();
         
     }
 
-    
-    public static void readFromFile(ArrayList<String> faits, ArrayList<String> baseFaitAvant, Br baseDeRegles){
+    public static void readFromFile(ArrayList<String> ensembleDeButs, ArrayList<String> baseFaitAvant, Br baseDeRegles){
         BufferedReader reader;
         
         try {
             reader = new BufferedReader(new FileReader("data/test.txt"));
             // read first line 
             String line = reader.readLine();
-            faits.add(line.strip());
+            ensembleDeButs.add(line.strip());
             
             // read second line
             line = reader.readLine();
@@ -104,13 +96,29 @@ public class App {
             
             e.printStackTrace();
         }
-
-
     }
+    public static void readRulesFromFile(Br baseDeRegles){
+        BufferedReader reader;
+        
+        try {
+            reader = new BufferedReader(new FileReader("data/regles.txt"));
 
-   
+            String line = reader.readLine();
+            
+            Regle regle ;
+            String [] temp ;
+            while(line !=null){
+                temp = line.trim().split("\\s+");
+                regle = new Regle(temp[0].trim(), temp[1].trim());
+                baseDeRegles.addRegle(regle);
+                line= reader.readLine();  
 
-
-
-
+            }
+            reader.close();
+            
+        } catch (IOException e) {
+            
+            e.printStackTrace();
+        }
+    }
 }
