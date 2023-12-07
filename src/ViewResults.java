@@ -68,16 +68,6 @@ public class ViewResults {
                 Color buttonTextColor = Color.WHITE; // Couleur du texte en blanc pour un contraste
                 Color buttonBackgroundColor = new Color(51, 153, 255); // Couleur de fond bleu clair
             
-    
-
-            // JPanel panel = new JPanel();
-            // panel.setLayout(new GridLayout(4, 1));
-
-            // JPanel panelResultats = new JPanel();
-            // panelResultats.setLayout(new GridLayout(1, 2));
-
-            // JPanel panelBoutons = new JPanel();
-            // panelBoutons.setLayout(new GridLayout(1, 3));
 
             JLabel labelResText = new JLabel("Résultat : ");
             // JLabel labelResChainage = new JLabel("Test");

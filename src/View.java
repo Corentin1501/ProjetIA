@@ -10,12 +10,23 @@ import javax.swing.*;
 public class View {
     public JFrame jFrame;
 
-    private JCheckBox courbature, fatigue, fievre, toux, sueurs, mauxDeTete, pression, bonMedecin;
+    private JCheckBox courbature, fatigue, fievre, toux, sueurs, mauxDeTete, pression, bonMedecin, triNombrePremiss;
 
     private ViewResults resultats;
 
+    private Br baseDeRegles = new Br();
+    private Br baseDeReglesTriee = new Br();
+
     public View(){
         this.jFrame = new JFrame("Menu des symptômes");
+        readRulesFromFile(baseDeRegles);
+
+        for (Regle r : baseDeRegles.baseRegles) 
+            baseDeReglesTriee = baseDeReglesTriee.addRegle(new Regle(r.nbr, r.premiss, r.action, r.active));
+        
+        baseDeReglesTriee.trierReglesParOrdreDecroissantDePremisses();
+        System.out.println(baseDeRegles.toString());
+        System.out.println(baseDeReglesTriee.toString());
 
         // Création de la fenre au milieu de l'écran
 
@@ -37,23 +48,31 @@ public class View {
             panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Ajout de marges
 
             
-            Font font = new Font("Comfortaa", Font.PLAIN, 20);  // Création d'une police pour les labels et les cases à cocher
+            // personnalisation des labels
+                Font labelFont = new Font("Segoe UI", Font.BOLD, 16); // Police Segoe UI en gras pour une meilleure lisibilité
+                Color labelColor = Color.BLACK; // Couleur du texte en noir pour un bon contraste            
+            // personnalisation des boutons
+                Font buttonFont = new Font("Segoe UI", Font.BOLD, 14); // Police Segoe UI pour la modernité
+                Color buttonTextColor = Color.WHITE; // Couleur du texte en blanc pour un contraste
+                Color buttonBackgroundColor = new Color(51, 153, 255); // Couleur de fond bleu clair
+
+            ArrayList<JComponent> liste_components = new ArrayList<>();
+            ArrayList<JButton> liste_boutons = new ArrayList<>();
+
 
             //################### HAUT DE LA PAGE #########################
 
                 //------- Age -------
 
-                    JPanel panelAge = new JPanel();
+                JLabel labelAge = new JLabel("Age : ");
+                    liste_components.add(labelAge);
+                JTextField inputAge = new JTextField();
+                
+                JPanel panelAge = new JPanel();
                     panelAge.setLayout(new GridLayout(1, 2));
-
-                    JLabel labelAge = new JLabel("Age : ");
-                        JTextField inputAge = new JTextField();
-                    
-                        labelAge.setFont(font);
-
-                        panelAge.add(labelAge);
-                        panelAge.add(inputAge);
-                    panel.add(panelAge, BorderLayout.PAGE_START);
+                    panelAge.add(labelAge);
+                    panelAge.add(inputAge);
+                panel.add(panelAge, BorderLayout.PAGE_START);
                 
             //################### CENTRE DE LA PAGE #########################
 
@@ -63,7 +82,7 @@ public class View {
                     panelTitreEtSymptomes.setLayout(new GridLayout(3, 1));
                     
                     JLabel labelTitre = new JLabel("----------------------------- Symptômes que vous présentez -----------------------------");
-                    labelTitre.setFont(font);
+                    liste_components.add(labelTitre);
                     panelTitreEtSymptomes.add(labelTitre);
                     
                     JPanel panelSymptomes = new JPanel();
@@ -87,14 +106,14 @@ public class View {
                     pression.setText("Pression élevée");
                     bonMedecin.setText("Possède un bon médecin");
 
-                    courbature.setFont(font);
-                    fatigue.setFont(font);
-                    fievre.setFont(font);
-                    toux.setFont(font);
-                    sueurs.setFont(font);
-                    mauxDeTete.setFont(font);
-                    pression.setFont(font);
-                    bonMedecin.setFont(font);
+                    liste_components.add(courbature);
+                    liste_components.add(fatigue);
+                    liste_components.add(fievre);
+                    liste_components.add(toux);
+                    liste_components.add(sueurs);
+                    liste_components.add(mauxDeTete);
+                    liste_components.add(pression);
+                    liste_components.add(bonMedecin);
                     
                     panelSymptomes.add(courbature);
                     panelSymptomes.add(fatigue);
@@ -116,9 +135,13 @@ public class View {
                 //------- Méthodes -------
 
                 JPanel panelMethodes = new JPanel();
-                panelMethodes.setLayout(new GridLayout(1, 2));
+                panelMethodes.setLayout(new GridLayout(1, 3));
 
                 JTextField inputBut = new JTextField();
+
+                triNombrePremiss = new JCheckBox();
+                triNombrePremiss.setText("Trier les règles par nombre de prémiss");
+                liste_components.add(triNombrePremiss);
 
                 String[] methodes = {"Chaînage Avant", "Chaînage Arrière"};
                 JComboBox<String> methode = new JComboBox<>(methodes);
@@ -144,19 +167,76 @@ public class View {
                 panelMethodes.add(Box.createHorizontalGlue()); // Ajout d'un espace horizontal
                 panelMethodes.add(methode);
                 panelMethodes.add(inputBut);
+                panelMethodes.add(triNombrePremiss);
                 panelMethodes.add(Box.createHorizontalGlue()); // Ajout d'un espace horizontal
 
 
 
                 //------- Boutons -------
-                    
+
+                    JButton boutonRegles = new JButton("Afficher les règles");
+                    JButton boutonCoherence = new JButton("Test de Cohérence");
                     JButton boutonEvaluate = new JButton("Évaluer");
                     JButton boutonQuit = new JButton("Quitter");
 
-                    boutonEvaluate.setFont(font);
-                    boutonQuit.setFont(font);
+                    liste_boutons.add(boutonRegles);
+                    liste_boutons.add(boutonCoherence);
+                    liste_boutons.add(boutonEvaluate);
+                    liste_boutons.add(boutonQuit);
 
                     //-------- Actions des boutons --------
+
+                    boutonRegles.addActionListener( new ActionListener() {
+                        public void actionPerformed(ActionEvent evenement) {
+                            ViewRules view;
+                            if (triNombrePremiss.isSelected()) view = new ViewRules(baseDeReglesTriee.toString());
+                            else view = new ViewRules(baseDeRegles.toString());
+
+                            view.show();
+                        }
+                    });
+
+                    boutonCoherence.addActionListener( new ActionListener() {
+                        public void actionPerformed(ActionEvent evenement) {
+                            // Récupération de toutes les données 
+
+                                // base de faits
+                                    ArrayList<String> baseFait = new ArrayList<String>();
+                                    if (courbature.isSelected()) baseFait.add("COURBATURE");
+                                    if (fatigue.isSelected()) baseFait.add("FATIGUE");
+                                    if (fievre.isSelected()) baseFait.add("FIEVRE");
+                                    if (toux.isSelected()) baseFait.add("TOUX");
+                                    if (sueurs.isSelected()) baseFait.add("SUEURS_FROIDES");
+                                    if (mauxDeTete.isSelected()) baseFait.add("MAUX_DE_TETE");
+                                    if (pression.isSelected()) baseFait.add("PRESSION");
+                                    if (bonMedecin.isSelected()) baseFait.add("PAS_BON_MEDECIN");
+                                    if (!inputAge.getText().isEmpty() && Integer.parseInt(inputAge.getText()) > 80) baseFait.add("VIEUX");
+
+                                // base de regles
+
+                                    Br baseDeRegles = new Br();
+                                    readRulesFromFile(baseDeRegles);
+
+                                for (String fait : baseFait) {
+                                    System.out.println(fait + ", ");
+                                }
+                                System.out.println(baseDeRegles.toString());
+
+                                //Test coherence:
+
+
+                                String message = "";
+                                message += "*******************COHERENCE****************************\n\\n" + //
+                                        "Vérification de la cohérence de la base de faits avant le chaînage :\\n" + //
+                                        "";
+                                boolean coherenceAvant = Coherence.estBaseFaitsCoherente(baseFait, baseDeRegles);
+                                message +="La base de faits avant le chaînage est cohérente : " + coherenceAvant + "\n"; 
+
+                                ViewCoherence viewCo  = new ViewCoherence(message);
+                                viewCo.show();
+                                
+                        }
+                    });
 
                         boutonEvaluate.addActionListener( new ActionListener() {
                             public void actionPerformed(ActionEvent evenement) {
@@ -174,18 +254,10 @@ public class View {
                                         if (bonMedecin.isSelected()) baseFait.add("PAS_BON_MEDECIN");
                                         if (!inputAge.getText().isEmpty() && Integer.parseInt(inputAge.getText()) > 80) baseFait.add("VIEUX");
 
-                                    // base de regles
-
-                                        Br baseDeRegles = new Br();
-                                        readRulesFromFile(baseDeRegles);
-
-                                    for (String fait : baseFait) {
-                                        System.out.println(fait + ", ");
-                                    }
-                                    System.out.println(baseDeRegles.toString());
-
                                     // but recherché
                                     String but = inputBut.getText();
+
+
 
                                     resultats = new ViewResults((String) methode.getSelectedItem(), baseFait, baseDeRegles, but);
                                     
@@ -204,6 +276,10 @@ public class View {
                     panelBoutons.setLayout(new BoxLayout(panelBoutons, BoxLayout.X_AXIS));
 
                     panelBoutons.add(Box.createHorizontalGlue());
+                    panelBoutons.add(boutonRegles);
+                    panelBoutons.add(Box.createHorizontalStrut(10));
+                    panelBoutons.add(boutonCoherence);
+                    panelBoutons.add(Box.createHorizontalStrut(10));
                     panelBoutons.add(boutonEvaluate);
                     panelBoutons.add(Box.createHorizontalStrut(10)); // Ajout d'un espace horizontal entre les boutons
                     panelBoutons.add(boutonQuit);
@@ -217,7 +293,17 @@ public class View {
 
             //#######################################################
 
-            // panel.setBackground(Color.DARK_GRAY);
+            for (JComponent comp : liste_components) {
+                comp.setFont(labelFont);
+                comp.setForeground(labelColor);
+            }
+            for (JButton comp : liste_boutons) {
+                comp.setFont(buttonFont);
+                comp.setForeground(buttonTextColor);
+                comp.setBackground(buttonBackgroundColor);
+                comp.setFocusPainted(false); // Supprime la bordure de focus (si nécessaire)
+                comp.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Ajoute un peu de marge intérieure
+            }
 
             jFrame.setContentPane(panel);
     }

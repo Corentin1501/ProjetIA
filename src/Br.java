@@ -1,6 +1,8 @@
 
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class Br {
     public ArrayList<Regle> baseRegles = new ArrayList<Regle>();
@@ -73,5 +75,15 @@ public class Br {
         for (Regle regle : this.baseRegles) {
             regle.activate();
         }
+    }
+
+    public void trierReglesParOrdreDecroissantDePremisses() {
+        Collections.sort(baseRegles, new Comparator<Regle>() {
+            @Override
+            public int compare(Regle r1, Regle r2) {
+                return Integer.compare(r2.premiss.size(), r1.premiss.size());
+            }
+        });
+
     }
 }

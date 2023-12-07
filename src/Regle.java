@@ -20,6 +20,14 @@ public class Regle{
         this.action.addAll(Arrays.asList(action.split(",")));
     }
 
+    public Regle(int nbr, ArrayList<String> premiss, ArrayList<String> action, Boolean active) {
+        this.nbr = nbr;
+        this.premiss = premiss;
+        this.action = action;
+        this.active = active;
+    }
+
+
     public void activate(){
         this.active= true;
     }
@@ -28,9 +36,7 @@ public class Regle{
         this.active= false;
     }
 
-    @Override
     public String toString() {
-        
         return "r" +this.nbr + "--> SI: " + this.premiss.toString() + " , Alors: "+ this.action.toString();
     }
 
