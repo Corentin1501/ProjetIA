@@ -37,26 +37,26 @@ public class App {
         //                CHAINAGE AVANT                 #
         //################################################
         
-            System.out.println("------------------- Chainage Avant: -------------------\n");
+            // System.out.println("------------------- Chainage Avant: -------------------\n");
             
             // ChainageAvant.solve(baseFaitAvant,baseDeRegles,but);
             
-            System.out.println("\n-------------------------------------------------------");
+            // System.out.println("\n-------------------------------------------------------");
             
         //################################################
         //               CHAINAGE ARRIERE                #
         //################################################
             
-            System.out.println("------------------- Chainage Arrière: -------------------\n");
+            // System.out.println("------------------- Chainage Arrière: -------------------\n");
 
             // reactivater toutes les règles si utilisés après le chainage avant  
             // baseDeRegles.init();
 
             // System.out.println( ChainageArriere.solve(baseFaitArriere, baseDeRegles, ensembleDeButs)? "La regle " + but + " est etabli\n": "La regle " + but + " n'est pas etabli\n" );
 
-            System.out.println("Base des faits apres l'application du chainage arriere: \n" + baseFaitArriere.toString() +"\n");
+            // System.out.println("Base des faits apres l'application du chainage arriere: \n" + baseFaitArriere.toString() +"\n");
             
-            System.out.println("\n-------------------------------------------------------");
+            // System.out.println("\n-------------------------------------------------------");
             
         //################################################
 

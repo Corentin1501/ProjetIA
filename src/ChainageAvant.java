@@ -3,9 +3,10 @@
 import java.util.ArrayList;
 
 public class ChainageAvant{
-    private String explicationsFinales, explicationsCompletes, but;
+    private String explicationsAbrege, explicationsCompletes, but;
     private ArrayList<String> baseDeFaits;
     private Br baseDeRegles;
+    private Boolean resultat;
 
     
 
@@ -13,7 +14,7 @@ public class ChainageAvant{
         this.baseDeFaits = baseDeFaits;
         this.baseDeRegles = baseDeRegles;
         this.but = but;
-        this.explicationsFinales = "";
+        this.explicationsAbrege = "";
         this.explicationsCompletes = "";
 
     }
@@ -40,35 +41,41 @@ public class ChainageAvant{
                 baseDeFaits.addAll(regleAppl.action);
                 
                 explicationsCompletes += "BF pour cet iteration:  " + baseDeFaits.toString() + "\n";
+                explicationsAbrege += "BF pour cet iteration:  " + baseDeFaits.toString() + "\n";
                 
                 // System.out.println("BF pour cet iteration:  " + baseDeFaits.toString() + "\n");
 
             }
             if(baseDeFaits.contains(but)){
+                resultat = true;
                 // System.out.println( "La regle: " + but + "  est etabli");
                 // System.out.println("Les regles utilisees pour demontrer {" + but +"} :");
 
                 explicationsCompletes += "Les regles utilisees pour demontrer {" + but + "} :\n";
-                explicationsFinales += "Les regles utilisees pour demontrer {" + but + "} :\n";
+                explicationsAbrege += "Les regles utilisees pour demontrer {" + but + "} :\n";
 
                 for (Regle r : cheminementRegle) {
                     // System.out.println(r);
                     explicationsCompletes += r.toString() + "\n";
-                    explicationsFinales += r.toString() + "\n";
+                    explicationsAbrege += r.toString() + "\n";
                 }
 
                 
             } else {
-                System.out.println( "La regle: " + but + "  n'est pas etabli");
+                resultat = false;
+                explicationsCompletes += "La regle: " + but + "  n'est pas etabli" + "\n";
+                explicationsAbrege += "La regle: " + but + "  n'est pas etabli" + "\n";
 
             }
         } catch (Exception e) {
-                System.out.println(e);
+            explicationsCompletes += e;
+            System.out.println(e);
         }
     }
 
     public String getExplicationsCompletes(){ return explicationsCompletes; }
-    public String getExplicationsFinales(){ return explicationsFinales; }
+    public String getExplicationsAbrege(){ return explicationsAbrege; }
+    public Boolean getResultat(){ return resultat; }
 }
 
 

@@ -8,6 +8,8 @@ public class ViewResults {
     public JFrame jFrame;
     public String methode;
     public String explicationsComplete, explicationsAbrege;
+    public JLabel labelResChainage = new JLabel("");
+    private Boolean resultatChainageArriere = false;
 
     public ViewResults(String methode, ArrayList<String> BF, Br BR, String but) {
         this.jFrame = new JFrame("Résultats");
@@ -33,17 +35,27 @@ public class ViewResults {
                 if (but.isEmpty()) but = "MORT";
                 ChainageAvant chainage = new ChainageAvant(BF, BR, but);
                 chainage.solve();
+
                 explicationsComplete = chainage.getExplicationsCompletes();
-                explicationsAbrege = chainage.getExplicationsFinales();
+                explicationsAbrege = chainage.getExplicationsAbrege();
+
+                labelResChainage.setText(chainage.getResultat()?"MORT":"PAS MORT");
             }
             else {
                 ArrayList<String> buts = new ArrayList<String>();
 
-                if (but.isEmpty()) buts.add("MORT");
-                else buts.add(but);
+                if(but.isEmpty()) but = "MORT";
+                buts.add(but);
+                
+                
+                ChainageArriere chainage = new ChainageArriere();
 
-                ChainageArriere.solve(BF, BR, buts);
-
+                resultatChainageArriere = chainage.solve(BF, BR, buts);
+                explicationsAbrege = chainage.getExplicationsAbrege();
+                explicationsComplete = chainage.getExplicationsCompletes();
+                
+                labelResChainage.setText(resultatChainageArriere? but + " vérifié" : but + " NON vérifié");
+                
             }
             
         //////////////// Création des éléments ////////////////
@@ -68,28 +80,32 @@ public class ViewResults {
             // panelBoutons.setLayout(new GridLayout(1, 3));
 
             JLabel labelResText = new JLabel("Résultat : ");
-            JLabel labelResChainage = new JLabel("Test");
+            // JLabel labelResChainage = new JLabel("Test");
             JLabel labelExplications = new JLabel("Explications : ");
-            JTextArea labelAffichageExplications = new JTextArea("des explications...");
+            JTextArea labelAffichageExplications = new JTextArea("...");
             
             JButton boutonExpl_1 = new JButton("Complète");
             JButton boutonExpl_2 = new JButton("Abrégé");
+            JButton boutonOK = new JButton("OK");
 
             boutonExpl_1.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent evenement) {
                     labelAffichageExplications.setText(explicationsComplete);
-
                 }
             });
             boutonExpl_2.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent evenement) {
                     labelAffichageExplications.setText(explicationsAbrege);
-
+                }
+            });
+            boutonOK.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent evenement) {
+                    jFrame.dispose();
                 }
             });
 
             JLabel[] labels = {labelResText, labelResChainage, labelExplications};
-            JButton[] boutons = {boutonExpl_1, boutonExpl_2};
+            JButton[] boutons = {boutonExpl_1, boutonExpl_2, boutonOK};
 
             for (JLabel label : labels) {
                 label.setFont(labelFont);
@@ -146,6 +162,10 @@ public class ViewResults {
             gbc.gridx = 0;
             gbc.gridy = 3;
             panel.add(labelAffichageExplications, gbc);
+
+            gbc.gridx = 0;
+            gbc.gridy = 4;
+            panel.add(boutonOK, gbc);
 
         jFrame.setContentPane(panel);
     }
