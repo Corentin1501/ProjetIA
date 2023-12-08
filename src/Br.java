@@ -1,8 +1,4 @@
-
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.*;
 
 public class Br {
     public ArrayList<Regle> baseRegles = new ArrayList<Regle>();
@@ -84,6 +80,18 @@ public class Br {
                 return Integer.compare(r2.premiss.size(), r1.premiss.size());
             }
         });
+    }
 
+    public boolean verifierCoherence() {
+        for (Regle regle : baseRegles) {
+            Set<String> premissesUniques = new HashSet<>(regle.premiss);
+    
+            // Vérification des prémisses redondantes dans une règle
+            if (premissesUniques.size() < regle.premiss.size()) {
+                System.out.println("Prémisses redondantes dans une règle : " + regle.nbr);
+                return false;
+            }
+        }
+        return true;
     }
 }

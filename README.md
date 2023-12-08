@@ -1,33 +1,49 @@
-# Inference Engine using Forward & Backward Chaining.
+# Moteur d'inférence utilisant le chaînage avant et arrière
 
-## Intrduction:
+## Entrées :
 
-An Inference engine used in expert systems, that can carry out forward chaining and backward chaining.
+-   fichier de règles : data/regles.txt
 
-## Inputs:
+-   format :
 
--   Input file: _data/in.txt_.
+    -   PREMISS,PREMISS,...    ACTION
 
--   Input format:
+## Sorties:
 
-    1. First line => Query.
-    2. Second line => Facts base
-    3. Rest => Knowledge base.
+-   Chaînage avant: 
 
--   For examples, check the file: *data/example_in.txt*
+    Le programme va chercher en fonction de la base de fait si le patient meurt ou non.
 
-## Output:
+-   Chaînage arrière:
 
--   Forward Chaining: 
+    Le programme cherche à savoir si une action est vérifié (par défaut la MORT mais peut-être modifié). Il va valider si chaque premiss nécessaire pour le but à atteindre est dans la base de fait.
 
-    The program prints the applicable rule and the facts base for each iteration, the final result includes wether the query is proven or not, and the execution sequence.
+-   Tri par nombre de premiss:
 
--   Backward Chaining:
+    Possibilité de trier la base de règles par le nombre de premiss dans chaque règle.
 
-    At iteration it prints the fact to establish, the premise to established. Also, the proven facts are marked between brackets.
-    at the end, the final line of the output summarize wether the query is prooven or not.
+-   Cohérence:
 
-## Useful Links:
+    Affiche si la base de règles est cohérente ou non.
 
--   For more information about [Forward Chaining](https://en.wikipedia.org/wiki/Forward_chaining).
--   For more information about [Backward Chaining](https://en.wikipedia.org/wiki/Backward_chaining).
+## Vocabulaire :
+
+-   Faits :
+    1. COURBATURE           : si le patient a des courbatures
+    2. FATIGUE              : si le patient est fatigué
+    3. FIEVRE               : si le patient a de la fièvre
+    4. GRIPPE               : si le patient a la grippe
+    5. TOUX                 : si le patient tousse
+    6. SUEURS_FROIDES       : si le patient a des sueurs froides
+    7. COVID                : si le patient a le covid
+    8. FRAGILE              : si le patient est fragile
+    9. VIEUX                : si le patient a plus de 80 ans
+    10. MALAISE             : si le patient est victime de malaise
+    11. MAUX_DE_TETE        : si le patient a des maux de tête
+    12. PRESSION            : si le patient a une pression élevée
+    13. COMPLICATIONS       : si le patient a des complications liées au covid ou a la grippe
+    14. PAS_BON_MEDECIN     : si le patient n'a pas un bon médecin
+
+## Détails :
+
+-   Il se peut que enchainer les évaluations de la base de fait ne marche pas au bout d'un moment, mais relancer l'application résout tous les problèmes.

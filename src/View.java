@@ -9,26 +9,21 @@ import javax.swing.*;
 
 public class View {
     public JFrame jFrame;
-
     private JCheckBox courbature, fatigue, fievre, toux, sueurs, mauxDeTete, pression, bonMedecin, triNombrePremiss;
-
     private ViewResults resultats;
-
     private Br baseDeRegles = new Br();
     private Br baseDeReglesTriee = new Br();
 
     public View(){
         this.jFrame = new JFrame("Menu des symptômes");
-        readRulesFromFile(baseDeRegles);
 
-        for (Regle r : baseDeRegles.baseRegles) 
-            baseDeReglesTriee = baseDeReglesTriee.addRegle(new Regle(r.nbr, r.premiss, r.action, r.active));
-        
-        baseDeReglesTriee.trierReglesParOrdreDecroissantDePremisses();
-        System.out.println(baseDeRegles.toString());
-        System.out.println(baseDeReglesTriee.toString());
+        // récupération des règles
+            readRulesFromFile(baseDeRegles);
+        // création d'une BR trié par premiss
+            for (Regle r : baseDeRegles.baseRegles) baseDeReglesTriee = baseDeReglesTriee.addRegle(new Regle(r.nbr, r.premiss, r.action, r.active));
+            baseDeReglesTriee.trierReglesParOrdreDecroissantDePremisses();
 
-        // Création de la fenre au milieu de l'écran
+        // Création de la fenetre au milieu de l'écran
 
             jFrame.setSize(new Dimension(800, 400));
 
@@ -162,8 +157,6 @@ public class View {
                     }
                 });
 
- 
-
                 panelMethodes.add(Box.createHorizontalGlue()); // Ajout d'un espace horizontal
                 panelMethodes.add(methode);
                 panelMethodes.add(inputBut);
@@ -198,8 +191,19 @@ public class View {
 
                     boutonCoherence.addActionListener( new ActionListener() {
                         public void actionPerformed(ActionEvent evenement) {
-                            // Récupération de toutes les données 
 
+                            String message =    "*******************COHERENCE****************************\n" + //
+                                                "Vérification de la cohérence de la base de faits avant le chaînage :\n";
+                            
+                            message += baseDeRegles.verifierCoherence()? "La base de règles est COHÉRENTE" : "La base de règles N'EST PAS COHÉRENTE";
+
+                            ViewCoherence viewCo  = new ViewCoherence(message);
+                            viewCo.show();
+                        }
+                    });
+
+                        boutonEvaluate.addActionListener( new ActionListener() {
+                            public void actionPerformed(ActionEvent evenement) {
                                 // base de faits
                                     ArrayList<String> baseFait = new ArrayList<String>();
                                     if (courbature.isSelected()) baseFait.add("COURBATURE");
@@ -209,60 +213,14 @@ public class View {
                                     if (sueurs.isSelected()) baseFait.add("SUEURS_FROIDES");
                                     if (mauxDeTete.isSelected()) baseFait.add("MAUX_DE_TETE");
                                     if (pression.isSelected()) baseFait.add("PRESSION");
-                                    if (bonMedecin.isSelected()) baseFait.add("PAS_BON_MEDECIN");
+                                    if (!bonMedecin.isSelected()) baseFait.add("PAS_BON_MEDECIN");
                                     if (!inputAge.getText().isEmpty() && Integer.parseInt(inputAge.getText()) > 80) baseFait.add("VIEUX");
 
-                                // base de regles
-
-                                    Br baseDeRegles = new Br();
-                                    readRulesFromFile(baseDeRegles);
-
-                                for (String fait : baseFait) {
-                                    System.out.println(fait + ", ");
-                                }
-                                System.out.println(baseDeRegles.toString());
-
-                                //Test coherence:
-
-
-                                String message = "";
-                                message += "*******************COHERENCE****************************\n\\n" + //
-                                        "Vérification de la cohérence de la base de faits avant le chaînage :\\n" + //
-                                        "";
-                                boolean coherenceAvant = Coherence.estBaseFaitsCoherente(baseFait, baseDeRegles);
-                                message +="La base de faits avant le chaînage est cohérente : " + coherenceAvant + "\n"; 
-
-                                ViewCoherence viewCo  = new ViewCoherence(message);
-                                viewCo.show();
-                                
-                        }
-                    });
-
-                        boutonEvaluate.addActionListener( new ActionListener() {
-                            public void actionPerformed(ActionEvent evenement) {
-                                // Récupération de toutes les données
-
-                                    // base de faits
-                                        ArrayList<String> baseFait = new ArrayList<String>();
-                                        if (courbature.isSelected()) baseFait.add("COURBATURE");
-                                        if (fatigue.isSelected()) baseFait.add("FATIGUE");
-                                        if (fievre.isSelected()) baseFait.add("FIEVRE");
-                                        if (toux.isSelected()) baseFait.add("TOUX");
-                                        if (sueurs.isSelected()) baseFait.add("SUEURS_FROIDES");
-                                        if (mauxDeTete.isSelected()) baseFait.add("MAUX_DE_TETE");
-                                        if (pression.isSelected()) baseFait.add("PRESSION");
-                                        if (bonMedecin.isSelected()) baseFait.add("PAS_BON_MEDECIN");
-                                        if (!inputAge.getText().isEmpty() && Integer.parseInt(inputAge.getText()) > 80) baseFait.add("VIEUX");
-
-                                    // but recherché
+                                // but recherché
                                     String but = inputBut.getText();
 
-
-
-                                    resultats = new ViewResults((String) methode.getSelectedItem(), baseFait, baseDeRegles, but);
-                                    
-                                    resultats.show();
-
+                                resultats = new ViewResults((String) methode.getSelectedItem(), baseFait, baseDeRegles, but);
+                                resultats.show();
                             }
                         });
 
@@ -293,17 +251,18 @@ public class View {
 
             //#######################################################
 
-            for (JComponent comp : liste_components) {
-                comp.setFont(labelFont);
-                comp.setForeground(labelColor);
-            }
-            for (JButton comp : liste_boutons) {
-                comp.setFont(buttonFont);
-                comp.setForeground(buttonTextColor);
-                comp.setBackground(buttonBackgroundColor);
-                comp.setFocusPainted(false); // Supprime la bordure de focus (si nécessaire)
-                comp.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Ajoute un peu de marge intérieure
-            }
+            // stylisation des labels et boutons
+                for (JComponent comp : liste_components) {
+                    comp.setFont(labelFont);
+                    comp.setForeground(labelColor);
+                }
+                for (JButton comp : liste_boutons) {
+                    comp.setFont(buttonFont);
+                    comp.setForeground(buttonTextColor);
+                    comp.setBackground(buttonBackgroundColor);
+                    comp.setFocusPainted(false); // Supprime la bordure de focus (si nécessaire)
+                    comp.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Ajoute un peu de marge intérieure
+                }
 
             jFrame.setContentPane(panel);
     }
